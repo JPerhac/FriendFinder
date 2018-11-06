@@ -1,0 +1,105 @@
+<!-- Survey/ Main Function Page for Friend Finder App -->
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Find-A-Friend</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+</head>
+<body>
+  
+<!-- Form for input with ratings -->
+
+<h2>Complete this survery <br> <br> Find new friends!</h2>
+
+<br>
+
+<form>
+    <h1>Do you like rap music?</h1>
+    <input type="radio" name="rating1" value="1" checked> Not even a little<br>
+    <input type="radio" name="rating1" value="2"> I'm more of a classical listener<br>
+    <input type="radio" name="rating1" value="3"> Meh<br>
+    <input type="radio" name="rating1" value="4"> If I am in the right mood<br>
+    <input type="radio" name="rating1" value="5"> That's my jam! <br>
+    <br> <br> <br>
+    <h1>Do you like the outdoors?</h1>
+    <input type="radio" name="rating2" value="1" checked> The sun burns my vampire skin<br>
+    <input type="radio" name="rating2" value="2"> I only go outside to get back inside<br>
+    <input type="radio" name="rating2" value="3"> Whatevs<br>
+    <input type="radio" name="rating2" value="4"> I like being outside<br>
+    <input type="radio" name="rating2" value="5"> WTH is indoors?!?! <br> 
+    <br> <br> <br>
+    <h1>Do you like to make new friends?</h1>
+    <input type="radio" name="rating3" value="1" checked> No New Friends<br>
+    <input type="radio" name="rating3" value="2"> Only if they're friends with my existing friends<br>
+    <input type="radio" name="rating3" value="3"> Sometimes<br>
+    <input type="radio" name="rating3" value="4"> I like to make new friends<br>
+    <input type="radio" name="rating3" value="5"> No old friends <br> 
+    <br> <br> <br>
+    <h1>Do you like to take surveys?</h1>
+    <input type="radio" name="rating4" value="1" checked> This is the first (and last) survey ever!<br>
+    <input type="radio" name="rating4" value="2"> Only if the input is used for a valid reason<br>
+    <input type="radio" name="rating4" value="3"> Indifferent<br>
+    <input type="radio" name="rating4" value="4"> I like to take surverys<br>
+    <input type="radio" name="rating4" value="5"> I take online surveys for cash all day<br>  
+    <br> <br> <br>
+    <h1>What are your expectations with this survey?</h1>
+    <input type="radio" name="rating5" value="1" checked> Literally could not be lower <br>
+    <input type="radio" name="rating5" value="2"> Low<br>
+    <input type="radio" name="rating5" value="3"> No expectations<br>
+    <input type="radio" name="rating5" value="4"> To meet BFFs<br>
+    <input type="radio" name="rating5" value="5"> To meet my soulmate <br>
+    <br> <br> <br>
+    <button id="submitBtn">Submit</button> 
+  </form>
+
+  <!-- empty div for function results -->
+
+  <div id="result"></div>
+
+  </body>
+
+  <!-- jquery link -->
+
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  
+  <!-- This function checks the value of the radio button that is checked and POSTs the data to /api/friends, receives a parsed integer from the variables, and displays html element results -->
+
+  <script>
+    $("#submitBtn").click(function(e) {
+    e.preventDefault();
+    var surveyValue1 = 
+    $("input[name= 'rating1']:checked").val();
+    var surveyValue2 =     
+    $("input[name= 'rating2']:checked").val();
+    var surveyValue3 =     
+        $("input[name= 'rating3']:checked").val();
+    var surveyValue4 =     
+        $("input[name= 'rating4']:checked").val();
+    var surveyValue5 =     
+        $("input[name= 'rating5']:checked").val();
+        
+        var userScore = parseInt(surveyValue1, 10) + parseInt(surveyValue2, 10) + parseInt(surveyValue3, 10) + parseInt(surveyValue4, 10) + parseInt(surveyValue5, 10);
+        $.ajax({
+        type: "POST",
+        url: "/api/friends",
+        data: {userScore}
+    })
+    .done(function(res){
+        var newFriend = "";
+        res.forEach(element => {
+            newFriend += element.name + ' ';
+        });
+        $("#result").html("<h1>" + "Based off your score, " + newFriend + " would be a great friend to meet!" + "<h1>");
+    })
+    });
+    
+  </script>
+  <script>
+    
+  </script>
+
+</html>
