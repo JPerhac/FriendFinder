@@ -1,0 +1,10 @@
+body {
+    background-image: linear-gradient(black, red);
+    background: repeating-linear-gradient(
+  45deg,
+  red,
+  blue 10px,
+  red 10px
+);
+
+}
